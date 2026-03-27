@@ -7,7 +7,7 @@ from dividend_checker import DividendChecker
 app = Flask(__name__)
 
 INDEX_TEMPLATE_NAME: str = "index.html"
-dividend_checker = DividendChecker()
+dividend_checker: DividendChecker = DividendChecker()
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -23,17 +23,22 @@ def try_load_template(template_name: str, **context) -> str:
 @app.route('/',methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
-        ticker_symbol = ""
-        return try_load_template(INDEX_TEMPLATE_NAME, ticker_symbol=ticker_symbol)
+        return try_load_template(INDEX_TEMPLATE_NAME)
     else:
-        ticker_symbol = request.form.get('ticker_symbol')
-        # do stuff with ticker_symbol
-        dividend_checker.check_stock(ticker_symbol)
+        ticker_symbol = request.form.get('ticker_symbol').upper()
 
-        return try_load_template(INDEX_TEMPLATE_NAME, ticker_symbol=ticker_symbol)
+        if ticker_symbol == "":
+            error_msg = "Please enter a ticker symbol"
+            return try_load_template(INDEX_TEMPLATE_NAME, error_msg=error_msg)
 
-
-
+        dividend_dict = dividend_checker.get_dividend_dictionary(ticker_symbol)
+        if len(dividend_dict) > 0:
+            logger.info("Displaying dividend list")
+            return try_load_template(INDEX_TEMPLATE_NAME, ticker_symbol=ticker_symbol, dividend_dict=dividend_dict)
+        else:
+            error_msg = "Please enter a valid ticker symbol"
+            return try_load_template(INDEX_TEMPLATE_NAME, error_msg=error_msg)
+# add error checks and logging. don't allow user to enter empty string
 
 if __name__ == '__main__':
     app.run(debug=True)

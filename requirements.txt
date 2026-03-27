@@ -1,3 +1,5 @@
 flask
 rich
 jinja2
+requests
+python-dotenv
