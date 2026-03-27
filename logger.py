@@ -24,7 +24,7 @@ shell_handler.setFormatter(shell_formatter)
 
 logger.addHandler(shell_handler)
 
-# Example statements to include in other files to log
+# Example statements to include in other files that use the logger
 # logger.debug('this is a debug statement')
 # logger.info('this is a info statement')
 # logger.warning('this is a warning statement')

@@ -12,7 +12,6 @@ STOCK_ENDPOINT = "https://www.alphavantage.co/query?"
 
 STOCK_API_KEY = os.getenv("STOCK_API_KEY")
 
-
 @dataclass
 class DividendChecker:
     pass
