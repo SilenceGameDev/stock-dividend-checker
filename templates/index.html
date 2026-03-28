@@ -131,6 +131,12 @@
 <script src="static/assets/js/breakpoints.min.js"></script>
 <script src="static/assets/js/util.js"></script>
 <script src="static/assets/js/main.js"></script>
+{% if dividend_dict|length > 0 %}
+<script>
+    document.getElementById('one').scrollIntoView({ behavior: 'smooth' });
+</script>
+{% endif %}
+
 
 </body>
 </html>
